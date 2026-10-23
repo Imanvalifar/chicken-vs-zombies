@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import 'package:flame/components.dart';
@@ -109,8 +110,12 @@ class ChickenFightGame extends FlameGame {
     children.whereType<Egg>().toList().forEach((e) => e.removeFromParent());
     children.whereType<Gift>().toList().forEach((g) => g.removeFromParent());
     children.whereType<Bullet>().toList().forEach((b) => b.removeFromParent());
-    children.whereType<ExplosionFx>().toList().forEach((f) => f.removeFromParent());
-    children.whereType<FloatText>().toList().forEach((t) => t.removeFromParent());
+    children.whereType<ExplosionFx>().toList().forEach(
+      (f) => f.removeFromParent(),
+    );
+    children.whereType<FloatText>().toList().forEach(
+      (t) => t.removeFromParent(),
+    );
     boss?.removeFromParent();
     boss = null;
 
@@ -256,10 +261,7 @@ class ChickenFightGame extends FlameGame {
 
   void bossSpawnChicks(MotherHen b) {
     for (var i = 0; i < 3; i++) {
-      final home = Vector2(
-        b.position.x + (i - 1) * 90,
-        size.y * 0.16,
-      );
+      final home = Vector2(b.position.x + (i - 1) * 90, size.y * 0.16);
       final hen = Chicken(
         assets: art,
         kind: ChickenKind.brown,
@@ -319,7 +321,8 @@ class ChickenFightGame extends FlameGame {
         final side = rng.nextBool() ? 1.0 : -1.0;
         hen.diveTarget = Vector2(
           clampD(
-            player.position.x + side * size.x * (0.16 + rng.nextDouble() * 0.14),
+            player.position.x +
+                side * size.x * (0.16 + rng.nextDouble() * 0.14),
             size.x * 0.08,
             size.x * 0.92,
           ),
@@ -668,13 +671,7 @@ class ChickenFightGame extends FlameGame {
   }
 
   // ------------------------------------------------------------------ input
-  void setKey({
-    bool? left,
-    bool? right,
-    bool? up,
-    bool? down,
-    bool? fire,
-  }) {
+  void setKey({bool? left, bool? right, bool? up, bool? down, bool? fire}) {
     if (left != null) keyLeft = left;
     if (right != null) keyRight = right;
     if (up != null) keyUp = up;
@@ -758,7 +755,9 @@ class HudComponent extends PositionComponent
           fontWeight: weight,
           letterSpacing: spacing,
           height: 1.1,
-          shadows: shadows ?? const [Shadow(color: Color(0x99000000), blurRadius: 6)],
+          shadows:
+              shadows ??
+              const [Shadow(color: Color(0x99000000), blurRadius: 6)],
         ),
       ),
     );
@@ -772,10 +771,16 @@ class HudComponent extends PositionComponent
     final l = 20.0 + g.safe.left;
     final r = s.x - 20.0 - g.safe.right;
 
-    _paint(10, const Color(0x80FFFFFF), spacing: 3)
-        .render(canvas, 'SCORE', Vector2(l, 14));
-    _paint(26, const Color(0xFFFFFFFF), spacing: 1.5)
-        .render(canvas, g.score.toString().padLeft(6, '0'), Vector2(l, 26));
+    _paint(
+      10,
+      const Color(0x80FFFFFF),
+      spacing: 3,
+    ).render(canvas, 'SCORE', Vector2(l, 14));
+    _paint(
+      26,
+      const Color(0xFFFFFFFF),
+      spacing: 1.5,
+    ).render(canvas, g.score.toString().padLeft(6, '0'), Vector2(l, 26));
 
     // lives
     final ship = g.art.ship1.frames.first.sprite;
@@ -788,12 +793,11 @@ class HudComponent extends PositionComponent
       );
     }
 
-    _paint(10, const Color(0x80FFFFFF), spacing: 3).render(
-      canvas,
-      'LEVEL',
-      Vector2(r, 14),
-      anchor: Anchor.topRight,
-    );
+    _paint(
+      10,
+      const Color(0x80FFFFFF),
+      spacing: 3,
+    ).render(canvas, 'LEVEL', Vector2(r, 14), anchor: Anchor.topRight);
     _paint(26, const Color(0xFFFFFFFF), spacing: 1.5).render(
       canvas,
       g.wave.toString().padLeft(2, '0'),
@@ -892,7 +896,8 @@ class HudComponent extends PositionComponent
     if (g.flash > 0) {
       canvas.drawRect(
         Rect.fromLTWH(0, 0, s.x, s.y),
-        Paint()..color = const Color(0xFFFFFFFF).withValues(alpha: g.flash * 0.25),
+        Paint()
+          ..color = const Color(0xFFFFFFFF).withValues(alpha: g.flash * 0.25),
       );
     }
   }
